@@ -4,7 +4,7 @@ import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Heart;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.Stone;
-import fr.ubx.poo.model.decor.Tree;
+import fr.ubx.poo.model.decor.*;
 
 import javax.swing.*;
 import java.util.Hashtable;
@@ -39,6 +39,14 @@ public class WorldBuilder {
             	return new Heart();
             case Key:
             	return new Key();
+            case BombNumberDec:
+            	return new BombNumberDec();
+            case BombNumberInc:
+            	return new BombNumberInc();
+            case BombRangeDec:
+            	return new BombRangeDec();
+            case BombRangeInc:
+            	return new BombRangeInc();
             default:
                 return null;
         }
