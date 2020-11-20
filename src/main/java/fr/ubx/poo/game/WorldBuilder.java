@@ -1,6 +1,8 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Heart;
+import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
 
@@ -33,6 +35,10 @@ public class WorldBuilder {
                 return new Stone();
             case Tree:
                 return new Tree();
+            case Heart:
+            	return new Heart();
+            case Key:
+            	return new Key();
             default:
                 return null;
         }

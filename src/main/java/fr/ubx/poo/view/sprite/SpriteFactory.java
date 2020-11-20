@@ -8,6 +8,8 @@ import static fr.ubx.poo.view.image.ImageResource.*;
 
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Heart;
+import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
 import fr.ubx.poo.model.go.character.Player;
@@ -23,6 +25,10 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(STONE), position);
         if (decor instanceof Tree)
             return new SpriteDecor(layer, factory.get(TREE), position);
+        if (decor instanceof Heart)
+        	return new SpriteDecor(layer ,factory.get(HEART),position);
+        if (decor instanceof Key)
+        	return new SpriteDecor(layer ,factory.get(KEY),position);
         return null;
     }
 
