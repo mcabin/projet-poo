@@ -5,7 +5,6 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Decor;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.BiConsumer;
