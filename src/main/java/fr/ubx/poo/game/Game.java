@@ -19,6 +19,7 @@ public class Game {
     private final Player player;
     private final String worldPath;
     public int initPlayerLives;
+    public boolean update;
 
     public Game(String worldPath) {
         world = new WorldStatic();

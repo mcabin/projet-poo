@@ -37,6 +37,8 @@ public final class SpriteFactory {
         	return new SpriteDecor(layer ,factory.get(BONUS_BOMB_RANGE_INC),position);
         if (decor instanceof BombRangeDec)
         	return new SpriteDecor(layer ,factory.get(BONUS_BOMB_RANGE_DEC),position);
+        if (decor instanceof Princess)
+        	return new SpriteDecor(layer ,factory.get(PRINCESS),position);
         return null;
     }
 

@@ -133,7 +133,11 @@ public final class GameEngine {
 
     private void update(long now) {
         player.update(now);
-
+        
+        if(game.update) {
+        	game.update=false;
+        	this.initialize(stage, game);
+        }
         if (player.isAlive() == false) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
