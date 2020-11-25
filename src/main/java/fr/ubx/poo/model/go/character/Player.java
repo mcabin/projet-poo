@@ -58,6 +58,13 @@ public class Player extends GameObject implements Movable {
         if(!nextPos.inside(game.getWorld().dimension) || game.getWorld().get(nextPos) instanceof Tree || game.getWorld().get(nextPos) instanceof Stone ) {
         	return false;
         }
+        
+        if(game.getWorld().get(nextPos) instanceof Box) {
+        	Position nextPos2 = direction.nextPosition(nextPos);
+        	if(!nextPos2.inside(game.getWorld().dimension) || game.getWorld().get(nextPos2)!=null) {
+            	return false;
+            }
+        }
         return true;
     }
 
@@ -100,6 +107,14 @@ public class Player extends GameObject implements Movable {
         	game.getWorld().clear(nextPos);
         	game.update=true;
         	this.bombValue++;
+        }
+        if(game.getWorld().get(nextPos) instanceof Box) {
+        	Position nextPos2 = direction.nextPosition(nextPos);
+        	game.getWorld().clear(nextPos);
+        	Box newBox=new Box();
+        	game.getWorld().set(nextPos2, newBox);
+        	game.update=true;
+        	
         }
         if(game.getWorld().get(nextPos) instanceof Princess) {
         	game.getWorld().clear(nextPos);
