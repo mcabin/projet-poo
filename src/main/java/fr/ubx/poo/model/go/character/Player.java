@@ -9,6 +9,7 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.go.GameObject;
+import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.game.Game;
 
 public class Player extends GameObject implements Movable {
@@ -121,6 +122,15 @@ public class Player extends GameObject implements Movable {
         	game.update=true;
         	this.winner=true;
         }
+        hitMonster(nextPos);
+    }
+    
+    public void hitMonster(Position p) {
+    	for(Monster i : game.getMonsterList()) {
+    		if(i.getPosition().equals(p)) {
+    			this.lives--;
+    		}
+    	}
     }
 
     public void update(long now) {

@@ -83,13 +83,33 @@ public final class GameEngine {
 
     protected final void buildAndSetGameLoop() {
         gameLoop = new AnimationTimer() {
+        	private long timenowS;
             public void handle(long now) {
                 // Check keyboard actions
                 processInput(now);
 
                 // Do actions
                 update(now);
-
+                long timeinS=now/1000000000;
+                if(timeinS!=this.timenowS) {
+                	this.timenowS=timeinS;
+                	for(Monster i : monstersList ) {
+                		int nb=(int) (Math.random()*(4));
+                		if (nb==0) {
+                			i.requestMove(Direction.S);
+                    	}
+                    	if (nb==1) {
+                        	i.requestMove(Direction.W);
+                    	}
+                    	if (nb==2) {
+                        	i.requestMove(Direction.E);
+                    	}
+                    	if (nb==3) {
+                        i.requestMove(Direction.N);
+                    	}
+                	}
+                }
+                
                 // Graphic update
                 render();
                 statusBar.update(game);
@@ -140,7 +160,9 @@ public final class GameEngine {
 
     private void update(long now) {
         player.update(now);
-        
+        for(Monster i : monstersList ) {
+        	i.update(now);
+        }
         if(game.update) {
         	game.update=false;
         	this.initialize(stage, game);
