@@ -8,6 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -33,15 +34,18 @@ public final class GameEngine {
     private final Player player;
     private final List<Sprite> sprites = new ArrayList<>();
     private StatusBar statusBar;
+    private ArrayList<Monster> monstersList;
     private Pane layer;
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
+    private ArrayList<Sprite> spriteMonster=new ArrayList<Sprite>();
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
+        this.monstersList=game.getMonsterList();
         initialize(stage, game);
         buildAndSetGameLoop();
     }
@@ -71,6 +75,9 @@ public final class GameEngine {
         			sprites.add(SpriteFactory.createDecor(layer, pos, d));
         	});
         spritePlayer = SpriteFactory.createPlayer(layer, player);
+        for(Monster i :monstersList) {
+        	spriteMonster.add(SpriteFactory.createMonster(layer, i));
+        }
 
     }
 
@@ -152,6 +159,7 @@ public final class GameEngine {
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
+        spriteMonster.forEach(Sprite::render);
     }
 
     public void start() {
