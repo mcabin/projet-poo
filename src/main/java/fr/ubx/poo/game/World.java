@@ -45,6 +45,7 @@ public class World {
         return posList;
     }
     
+    
 
     public Decor get(Position position) {
         return grid.get(position);

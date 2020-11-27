@@ -12,6 +12,7 @@ import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.decor.Key;
 import fr.ubx.poo.model.decor.Stone;
 import fr.ubx.poo.model.decor.Tree;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.view.image.ImageFactory;
@@ -50,5 +51,8 @@ public final class SpriteFactory {
     }
     public static Sprite createMonster(Pane layer, Monster monster) {
         return new SpriteMonster(layer, monster);
+    }
+    public static Sprite createBomb(Pane layer,Bomb bomb) {
+    	return new SpriteBomb(layer,bomb);
     }
 }

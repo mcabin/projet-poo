@@ -4,10 +4,13 @@
 
 package fr.ubx.poo.model.go.character;
 
+import java.util.ArrayList;
+
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.game.Game;
@@ -22,6 +25,14 @@ public class Player extends GameObject implements Movable {
     private boolean winner;
     private int rangeValue=1;
     private int bombValue=0;
+    private ArrayList<Bomb> bombList=new ArrayList<Bomb>();
+    
+    public ArrayList<Bomb> getBombList() {
+		return bombList;
+	}
+
+
+	
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -31,6 +42,10 @@ public class Player extends GameObject implements Movable {
 
     public int getLives() {
         return lives;
+    }
+    
+    public void setLives(int lives) {
+    	this.lives=lives;
     }
     public int getKeys() {
         return keys;
@@ -45,14 +60,24 @@ public class Player extends GameObject implements Movable {
     public Direction getDirection() {
         return direction;
     }
-
+    public void createBomb() {
+    	if(this.bombValue>0) {
+    		Position pos=getPosition();
+        	Bomb newBomb=new Bomb(game,pos);
+        	bombList.add(newBomb);
+        	this.bombValue--;
+        	game.update=true;
+    	}
+    	
+    	
+    }
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
         }
         moveRequested = true;
     }
-
+    
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());

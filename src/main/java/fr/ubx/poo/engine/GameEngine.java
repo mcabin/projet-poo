@@ -8,6 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.go.Bomb;
 import fr.ubx.poo.model.go.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import javafx.animation.AnimationTimer;
@@ -40,12 +41,15 @@ public final class GameEngine {
     private Stage stage;
     private Sprite spritePlayer;
     private ArrayList<Sprite> spriteMonster=new ArrayList<Sprite>();
+    private ArrayList<Bomb> bombList;
+    private ArrayList<Sprite> spriteBomb=new ArrayList<Sprite>();
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
         this.monstersList=game.getMonsterList();
+        this.bombList=player.getBombList();
         initialize(stage, game);
         buildAndSetGameLoop();
     }
@@ -78,7 +82,10 @@ public final class GameEngine {
         for(Monster i :monstersList) {
         	spriteMonster.add(SpriteFactory.createMonster(layer, i));
         }
-
+        for(Bomb i : this.bombList) {
+        	spriteBomb.add(SpriteFactory.createBomb(layer, i));
+        }
+        
     }
 
     protected final void buildAndSetGameLoop() {
@@ -122,6 +129,9 @@ public final class GameEngine {
             gameLoop.stop();
             Platform.exit();
             System.exit(0);
+        }
+        if(input.isBomb()) {
+        	player.createBomb();
         }
         if (input.isMoveDown()) {
             player.requestMove(Direction.S);
@@ -182,6 +192,7 @@ public final class GameEngine {
         // last rendering to have player in the foreground
         spritePlayer.render();
         spriteMonster.forEach(Sprite::render);
+        spriteBomb.forEach(Sprite::render);
     }
 
     public void start() {

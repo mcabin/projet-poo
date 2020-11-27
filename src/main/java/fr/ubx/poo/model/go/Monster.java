@@ -42,6 +42,11 @@ public class Monster extends GameObject{
 	public void doMove(Direction direction) {
 		Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
+        
+        if(nextPos.equals(game.getPlayer().getPosition())) {
+        	System.out.println("Salut");
+        	game.getPlayer().setLives(game.getPlayer().getLives()-1);
+        }
 	}
 	
 	 public void update(long now) {
