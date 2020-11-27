@@ -31,7 +31,6 @@ public class Player extends GameObject implements Movable {
 		return bombList;
 	}
 
-
 	
 
     public Player(Game game, Position position) {

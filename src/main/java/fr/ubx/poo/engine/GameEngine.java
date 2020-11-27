@@ -41,7 +41,6 @@ public final class GameEngine {
     private Stage stage;
     private Sprite spritePlayer;
     private ArrayList<Sprite> spriteMonster=new ArrayList<Sprite>();
-    private ArrayList<Bomb> bombList;
     private ArrayList<Sprite> spriteBomb=new ArrayList<Sprite>();
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
@@ -49,7 +48,6 @@ public final class GameEngine {
         this.game = game;
         this.player = game.getPlayer();
         this.monstersList=game.getMonsterList();
-        this.bombList=player.getBombList();
         initialize(stage, game);
         buildAndSetGameLoop();
     }
@@ -82,7 +80,7 @@ public final class GameEngine {
         for(Monster i :monstersList) {
         	spriteMonster.add(SpriteFactory.createMonster(layer, i));
         }
-        for(Bomb i : this.bombList) {
+        for(Bomb i : player.getBombList()) {
         	spriteBomb.add(SpriteFactory.createBomb(layer, i));
         }
         
@@ -114,6 +112,16 @@ public final class GameEngine {
                     	if (nb==3) {
                         i.requestMove(Direction.N);
                     	}
+                	}
+                	for(int i=0;player.getBombList().size()>i;i++) {
+                		if(player.getBombList().get(i).getCompt()==0) {
+                			player.getBombList().remove(i);
+                			spriteBomb.remove(i);
+                			game.update=true;
+                		}
+                		else {
+                			player.getBombList().get(i).setCompt(player.getBombList().get(i).getCompt()-1);
+                		}
                 	}
                 }
                 
