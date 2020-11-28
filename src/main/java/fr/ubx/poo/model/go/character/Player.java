@@ -67,9 +67,20 @@ public class Player extends GameObject implements Movable {
         	this.bombValue--;
         	game.update=true;
     	}
-    	
-    	
     }
+    public void useKey () {
+        if (this.keys > 0) {
+            Position pos = getPosition();
+            if (game.getWorld().get(pos) instanceof DoorNextClosed){
+                game.getWorld().clear(pos);
+                DoorNextOpened newDoor=new DoorNextOpened();
+                game.getWorld().set(pos, newDoor);
+                this.keys --;
+                game.update=true;
+            }
+        }
+    }
+
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
@@ -86,9 +97,7 @@ public class Player extends GameObject implements Movable {
         
         if(game.getWorld().get(nextPos) instanceof Box) {
         	Position nextPos2 = direction.nextPosition(nextPos);
-        	if(!nextPos2.inside(game.getWorld().dimension) || game.getWorld().get(nextPos2)!=null) {
-            	return false;
-            }
+            return nextPos2.inside(game.getWorld().dimension) && game.getWorld().get(nextPos2) == null;
         }
         return true;
     }

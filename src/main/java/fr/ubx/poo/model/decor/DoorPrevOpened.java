@@ -1,2 +1,7 @@
-package fr.ubx.poo.model.decor;public class DoorPrevOpened {
+package fr.ubx.poo.model.decor;
+
+public class DoorPrevOpened extends Decor{
+    public String toString() {
+        return "DoorNextOpened";
+    }
 }

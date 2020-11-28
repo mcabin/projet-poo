@@ -153,6 +153,9 @@ public final class GameEngine {
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
         }
+        if (input.isKey()){
+            player.useKey();
+        }
         input.clear();
     }
 
