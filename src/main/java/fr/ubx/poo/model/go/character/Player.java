@@ -62,7 +62,7 @@ public class Player extends GameObject implements Movable {
     public void createBomb() {
     	if(this.bombValue>0) {
     		Position pos=getPosition();
-        	Bomb newBomb=new Bomb(game,pos);
+        	Bomb newBomb=new Bomb(game,pos,rangeValue);
         	bombList.add(newBomb);
         	this.bombValue--;
         	game.update=true;
