@@ -38,7 +38,6 @@ public class Game {
         }
         ArrayList<Position> posList=world.findMonsters();
         for(Position i :posList) {
-        	System.out.println(i);
         	Monster nMonster=new Monster(this, i);
         	monsterList.add(nMonster);
         	

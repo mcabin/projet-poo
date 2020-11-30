@@ -133,8 +133,8 @@ public class Player extends GameObject implements Movable {
         	game.getWorld().clear(nextPos);
         	game.update=true;
         	this.bombValue--;
-        	if(rangeValue<0) {
-        		rangeValue=0;
+        	if(bombValue<0) {
+        		bombValue=0;
         	}
         }
         if(game.getWorld().get(nextPos) instanceof BombNumberInc) {

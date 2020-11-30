@@ -116,12 +116,14 @@ public final class GameEngine {
                 	}
                 	for(int i=0;player.getBombList().size()>i;i++) {
                 		if(player.getBombList().get(i).getCompt()==0) {
-                			player.getBombList().get(i).explose();
                 			player.getBombList().remove(i);
                 			spriteBomb.remove(i);
                 			game.update=true;
                 		}
                 		else {
+                			if(player.getBombList().get(i).getCompt()==1) {
+                				player.getBombList().get(i).explose();
+                			}
                 			player.getBombList().get(i).setCompt(player.getBombList().get(i).getCompt()-1);
                 		}
                 	}

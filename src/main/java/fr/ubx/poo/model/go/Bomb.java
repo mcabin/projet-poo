@@ -3,6 +3,7 @@ package fr.ubx.poo.model.go;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Bomb extends GameObject{
@@ -34,8 +35,11 @@ public class Bomb extends GameObject{
 		}
 		Position pPos=game.getPlayer().getPosition();
 		if(pPos.equals(pos)) {
-			System.out.println("Bomb");
 			game.getPlayer().setLives(game.getPlayer().getLives()-1);
+		}
+		if(game.getWorld().get(pos) instanceof Box) {
+			game.getWorld().clear(pos);
+			game.update=true;
 		}
 		
 	}
