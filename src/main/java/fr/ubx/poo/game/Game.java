@@ -17,16 +17,25 @@ import fr.ubx.poo.model.go.character.Player;
 
 public class Game {
 
-    private final World world;
+    private World world;
     private final Player player;
     private final String worldPath;
     private ArrayList<Monster> monsterList=new ArrayList<Monster>();;
     public int initPlayerLives;
     public boolean update;
+    private int currLevel=1;
 
-    public Game(String worldPath) {
-        world = new WorldStatic();
+    public int getCurrLevel() {
+		return currLevel;
+	}
+
+	public void setCurrLevel(int currLevel) {
+		this.currLevel = currLevel;
+	}
+
+	public Game(String worldPath) {
         this.worldPath = worldPath;
+        world = new WorldReader(worldPath+"\\level"+this.currLevel+".txt");
         loadConfig(worldPath);
         Position positionPlayer = null;
         try {
@@ -36,16 +45,30 @@ public class Game {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
-        ArrayList<Position> posList=world.findMonsters();
+        initialiseMonster();
+        
+    }
+	
+	public void initialiseMonster() {
+		ArrayList<Position> posList=world.findMonsters();
         for(Position i :posList) {
         	Monster nMonster=new Monster(this, i);
         	monsterList.add(nMonster);
         	
         }
-        
-    }
+	}
+	
+	
 
-    public int getInitPlayerLives() {
+    public String getWorldPath() {
+		return worldPath;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
+	}
+
+	public int getInitPlayerLives() {
         return initPlayerLives;
     }
 

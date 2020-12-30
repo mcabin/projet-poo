@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.PositionNotFoundException;
+import fr.ubx.poo.game.World;
+import fr.ubx.poo.game.WorldReader;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.go.Bomb;
@@ -105,6 +108,7 @@ public class Player extends GameObject implements Movable {
     public void doMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
+        if(game.getWorld().get(nextPos)!=null) {
         if(game.getWorld().get(nextPos) instanceof Heart) {
         	game.getWorld().clear(nextPos);
         	game.update=true;
@@ -154,6 +158,22 @@ public class Player extends GameObject implements Movable {
         	game.getWorld().clear(nextPos);
         	game.update=true;
         	this.winner=true;
+        }
+        if(game.getWorld().get(nextPos) instanceof DoorNextOpened) {
+        	game.setCurrLevel(game.getCurrLevel()+1);
+            World newLev=new WorldReader(game.getWorldPath()+"\\level"+game.getCurrLevel()+".txt");
+        	game.setWorld(newLev);
+        	try {
+        		Position posPlayer=game.getWorld().findDoor();
+        		this.setPosition(posPlayer);
+            } catch (PositionNotFoundException e) {
+                System.err.println("Position not found : " + e.getLocalizedMessage());
+                throw new RuntimeException(e);
+            }
+        	game.initialiseMonster();
+        	game.update=true;
+        	
+        }
         }
         hitMonster(nextPos);
     }

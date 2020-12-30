@@ -32,7 +32,16 @@ public class World {
         }
         throw new PositionNotFoundException("Player");
     }
-    
+    public Position findDoor() throws PositionNotFoundException{
+    	for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == WorldEntity.DoorPrevOpened) {
+                	return new Position(x,y);
+                }
+            }
+         }
+    	throw new PositionNotFoundException("Door");
+    }
     public ArrayList<Position> findMonsters(){
     	ArrayList<Position> posList=new ArrayList<Position>();
         for (int x = 0; x < dimension.width; x++) {
