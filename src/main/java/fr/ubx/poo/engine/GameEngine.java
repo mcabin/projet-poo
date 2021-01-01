@@ -99,7 +99,17 @@ public final class GameEngine {
                 long timeinS=now/1000000000;
                 if(timeinS!=this.timenowS) {
                 	this.timenowS=timeinS;
+                	int monsterSpeed;
+                	if(game.getCurrLevel()>1) {
+                		monsterSpeed=1;
+            		}
+                	else {
+                		monsterSpeed=2;
+                	}
+                	
+                	if(timenowS%monsterSpeed==0) {
                 	for(Monster i : monstersList ) {
+                		
                 		int nb=(int) (Math.random()*(4));
                 		if (nb==0) {
                 			i.requestMove(Direction.S);
@@ -113,6 +123,7 @@ public final class GameEngine {
                     	if (nb==3) {
                         i.requestMove(Direction.N);
                     	}
+                	}
                 	}
                 	for(int i=0;player.getBombList().size()>i;i++) {
                 		if(player.getBombList().get(i).getCompt()==0) {

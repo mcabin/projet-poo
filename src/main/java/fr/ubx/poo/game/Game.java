@@ -51,6 +51,7 @@ public class Game {
 	
 	public void initialiseMonster() {
 		ArrayList<Position> posList=world.findMonsters();
+		monsterList.clear();
         for(Position i :posList) {
         	Monster nMonster=new Monster(this, i);
         	monsterList.add(nMonster);

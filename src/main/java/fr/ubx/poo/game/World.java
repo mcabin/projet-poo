@@ -32,12 +32,20 @@ public class World {
         }
         throw new PositionNotFoundException("Player");
     }
-    public Position findDoor() throws PositionNotFoundException{
+    public Position findDoor(boolean next) throws PositionNotFoundException{
     	for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.DoorPrevOpened) {
-                	return new Position(x,y);
-                }
+            	if(next) {
+            		if (raw[y][x] == WorldEntity.DoorPrevOpened) {
+                    	return new Position(x,y);
+                    }
+            	}
+            	else {
+            		if (raw[y][x] == WorldEntity.DoorNextClosed) {
+                    	return new Position(x,y);
+                    }
+            	}
+                
             }
          }
     	throw new PositionNotFoundException("Door");

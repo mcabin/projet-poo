@@ -29,9 +29,11 @@ public class WorldBuilder {
     private static Decor processEntity(WorldEntity entity) {
         switch (entity) {
             case DoorNextOpened:
-                return new DoorNextOpened();
+                return new DoorOpened(true);
             case DoorNextClosed:
-                return new DoorNextClosed();
+                return new DoorClosed();
+            case DoorPrevOpened:
+            	return new DoorOpened(false);
             case Stone:
                 return new Stone();
             case Tree:

@@ -37,11 +37,12 @@ public class Bomb extends GameObject{
 		if(pPos.equals(pos)) {
 			game.getPlayer().setLives(game.getPlayer().getLives()-1);
 		}
-		if(game.getWorld().get(pos) instanceof Box) {
-			game.getWorld().clear(pos);
-			game.update=true;
+		if(game.getWorld().get(pos)!=null) {
+			if(game.getWorld().get(pos).fragile()) {
+				game.getWorld().clear(pos);
+				game.update=true;
+			}
 		}
-		
 	}
 	public void explose() {
 		exploseAt(getPosition());

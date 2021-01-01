@@ -33,7 +33,13 @@ public class Monster extends GameObject{
 	
 	public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
-        if(!nextPos.inside(game.getWorld().dimension) || game.getWorld().get(nextPos) instanceof Tree || game.getWorld().get(nextPos) instanceof Stone || game.getWorld().get(nextPos) instanceof Box) {
+        if(!nextPos.inside(game.getWorld().dimension)) {
+        	return false;
+        }
+        if(game.getWorld().get(nextPos)==null) {
+        	return true;
+        }
+        if(game.getWorld().get(nextPos).movable() || !game.getWorld().get(nextPos).canMove()) {
         	return false;
         }
         return true;
@@ -44,7 +50,6 @@ public class Monster extends GameObject{
         setPosition(nextPos);
         
         if(nextPos.equals(game.getPlayer().getPosition())) {
-        	System.out.println("Salut");
         	game.getPlayer().setLives(game.getPlayer().getLives()-1);
         }
 	}

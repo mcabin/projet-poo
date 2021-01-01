@@ -9,4 +9,10 @@ public class Stone extends Decor {
     public String toString() {
         return "Stone";
     }
+    public boolean canMove() {
+    	return false;
+    }
+    public boolean fragile() {
+    	return false;
+    }
 }

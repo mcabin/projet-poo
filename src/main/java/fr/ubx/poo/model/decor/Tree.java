@@ -10,4 +10,10 @@ public class Tree extends Decor {
     public String toString() {
         return "Tree";
     }
+    public boolean canMove() {
+    	return false;
+    }
+    public boolean fragile() {
+    	return false;
+    }
 }

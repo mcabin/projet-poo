@@ -74,12 +74,15 @@ public class Player extends GameObject implements Movable {
     public void useKey () {
         if (this.keys > 0) {
             Position pos = getPosition();
-            if (game.getWorld().get(pos) instanceof DoorNextClosed){
-                game.getWorld().clear(pos);
-                DoorNextOpened newDoor=new DoorNextOpened();
-                game.getWorld().set(pos, newDoor);
-                this.keys --;
-                game.update=true;
+            if (game.getWorld().get(pos)!=null){
+            	if(game.getWorld().get(pos).openable()) {
+            		game.getWorld().clear(pos);
+                    DoorOpened newDoor=new DoorOpened(true);
+                    game.getWorld().set(pos, newDoor);
+                    this.keys --;
+                    game.getWorld().get(pos).interact(game, pos);
+                    game.update=true;
+            	}
             }
         }
     }
@@ -94,11 +97,17 @@ public class Player extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
-        if(!nextPos.inside(game.getWorld().dimension) || game.getWorld().get(nextPos) instanceof Tree || game.getWorld().get(nextPos) instanceof Stone ) {
+        if(!nextPos.inside(game.getWorld().dimension)) {
+        	return false;
+        }
+        if(game.getWorld().get(nextPos)==null) {
+        	return true;
+        }
+        if(!game.getWorld().get(nextPos).canMove()) {
         	return false;
         }
         
-        if(game.getWorld().get(nextPos) instanceof Box) {
+        if(game.getWorld().get(nextPos).movable()) {
         	Position nextPos2 = direction.nextPosition(nextPos);
             return nextPos2.inside(game.getWorld().dimension) && game.getWorld().get(nextPos2) == null;
         }
@@ -109,76 +118,24 @@ public class Player extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         setPosition(nextPos);
         if(game.getWorld().get(nextPos)!=null) {
-        if(game.getWorld().get(nextPos) instanceof Heart) {
-        	game.getWorld().clear(nextPos);
-        	game.update=true;
-        	this.lives++;
-        }
-        if(game.getWorld().get(nextPos) instanceof Key) {
-        	game.getWorld().clear(nextPos);
-        	game.update=true;
-        	this.keys++;
-        	
-        }
-        if(game.getWorld().get(nextPos) instanceof BombRangeDec) {
-        	game.getWorld().clear(nextPos);
-        	game.update=true;
-        	this.rangeValue--;
-        	if(rangeValue<1) {
-        		rangeValue=1;
-        	}
-        }
-        if(game.getWorld().get(nextPos) instanceof BombRangeInc) {
-        	game.getWorld().clear(nextPos);
-        	game.update=true;
-        	this.rangeValue++;
-        }
-        if(game.getWorld().get(nextPos) instanceof BombNumberDec) {
-        	game.getWorld().clear(nextPos);
-        	game.update=true;
-        	this.bombValue--;
-        	if(bombValue<0) {
-        		bombValue=0;
-        	}
-        }
-        if(game.getWorld().get(nextPos) instanceof BombNumberInc) {
-        	game.getWorld().clear(nextPos);
-        	game.update=true;
-        	this.bombValue++;
-        }
-        if(game.getWorld().get(nextPos) instanceof Box) {
-        	Position nextPos2 = direction.nextPosition(nextPos);
-        	game.getWorld().clear(nextPos);
-        	Box newBox=new Box();
-        	game.getWorld().set(nextPos2, newBox);
-        	game.update=true;
-        	
-        }
-        if(game.getWorld().get(nextPos) instanceof Princess) {
-        	game.getWorld().clear(nextPos);
-        	game.update=true;
-        	this.winner=true;
-        }
-        if(game.getWorld().get(nextPos) instanceof DoorNextOpened) {
-        	game.setCurrLevel(game.getCurrLevel()+1);
-            World newLev=new WorldReader(game.getWorldPath()+"\\level"+game.getCurrLevel()+".txt");
-        	game.setWorld(newLev);
-        	try {
-        		Position posPlayer=game.getWorld().findDoor();
-        		this.setPosition(posPlayer);
-            } catch (PositionNotFoundException e) {
-                System.err.println("Position not found : " + e.getLocalizedMessage());
-                throw new RuntimeException(e);
-            }
-        	game.initialiseMonster();
-        	game.update=true;
-        	
-        }
+        	game.getWorld().get(nextPos).interact(game,nextPos);
         }
         hitMonster(nextPos);
     }
     
-    public void hitMonster(Position p) {
+    public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
+
+
+
+	public void setWinner(boolean winner) {
+		this.winner = winner;
+	}
+
+
+
+	public void hitMonster(Position p) {
     	for(Monster i : game.getMonsterList()) {
     		if(i.getPosition().equals(p)) {
     			this.lives--;
@@ -186,7 +143,31 @@ public class Player extends GameObject implements Movable {
     	}
     }
 
-    public void update(long now) {
+    public void setKeys(int keys) {
+		this.keys = keys;
+	}
+
+
+
+	public void setRangeValue(int rangeValue) {
+		this.rangeValue = rangeValue;
+	}
+
+
+
+	public void setBombValue(int bombValue) {
+		this.bombValue = bombValue;
+	}
+
+
+
+	public void setBombList(ArrayList<Bomb> bombList) {
+		this.bombList = bombList;
+	}
+
+
+
+	public void update(long now) {
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);

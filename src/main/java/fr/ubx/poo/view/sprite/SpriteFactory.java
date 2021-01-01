@@ -23,11 +23,9 @@ public final class SpriteFactory {
 
     public static Sprite createDecor(Pane layer, Position position, Decor decor) {
         ImageFactory factory = ImageFactory.getInstance();
-        if (decor instanceof DoorNextClosed)
+        if (decor instanceof DoorClosed)
             return new SpriteDecor(layer, factory.get(DOOR_CLOSED), position);
-        if (decor instanceof DoorNextOpened)
-            return new SpriteDecor(layer, factory.get(DOOR_OPENED), position);
-        if (decor instanceof DoorPrevOpened)
+        if (decor instanceof DoorOpened)
             return new SpriteDecor(layer, factory.get(DOOR_OPENED), position);
         if (decor instanceof Stone)
             return new SpriteDecor(layer, factory.get(STONE), position);
