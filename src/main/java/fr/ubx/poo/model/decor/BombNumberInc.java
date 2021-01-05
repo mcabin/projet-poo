@@ -2,6 +2,7 @@ package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.WorldEntity;
 import fr.ubx.poo.model.go.character.Player;
 
 public class BombNumberInc extends Decor{
@@ -13,5 +14,8 @@ public class BombNumberInc extends Decor{
 		game.update=true;
 		Player p=game.getPlayer();
 		p.setBombValue(p.getBombValue()+1);
+	}
+	public WorldEntity toWorldEntity() {
+		return WorldEntity.BombNumberInc;
 	}
 }

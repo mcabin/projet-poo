@@ -20,12 +20,21 @@ public class Game {
     private World world;
     private final Player player;
     private final String worldPath;
-    private ArrayList<Monster> monsterList=new ArrayList<Monster>();;
+    private ArrayList<Monster> monsterList=new ArrayList<Monster>();
     public int initPlayerLives;
     public boolean update;
     private int currLevel=1;
+    private ArrayList <WorldEntity[][]> levelSaves=new ArrayList<WorldEntity[][]>();
 
-    public int getCurrLevel() {
+    public ArrayList<WorldEntity[][]> getLevelSaves() {
+		return levelSaves;
+	}
+
+	public void setLevelSaves(ArrayList<WorldEntity[][]> levelSaves) {
+		this.levelSaves = levelSaves;
+	}
+
+	public int getCurrLevel() {
 		return currLevel;
 	}
 
@@ -48,7 +57,33 @@ public class Game {
         initialiseMonster();
         
     }
-	
+	public void saveLevel(World w) {
+		WorldEntity[][] lvlSave=new WorldEntity[w.getDimension().height][w.getDimension().width];
+		for (int x = 0; x < w.getDimension().width; x++) {
+            for (int y = 0; y < w.getDimension().height; y++) {
+            	Position pos=new Position(x,y);
+            	if(w.get(pos)==null) {
+                    lvlSave[y][x]=WorldEntity.Empty;
+            	}
+            	else {
+                    lvlSave[y][x]=w.get(pos).toWorldEntity();
+            	}
+            }
+        }
+		for(Monster i :monsterList) {
+			if(lvlSave[i.getPosition().y][i.getPosition().x]==WorldEntity.Empty) {
+				lvlSave[i.getPosition().y][i.getPosition().x]=WorldEntity.Monster;
+			}
+			
+		}
+		if(levelSaves.size()>=currLevel) {
+			levelSaves.set(currLevel-1, lvlSave);
+		}
+		else {
+			levelSaves.add(lvlSave);
+		}
+		
+	}
 	public void initialiseMonster() {
 		ArrayList<Position> posList=world.findMonsters();
 		monsterList.clear();
@@ -58,7 +93,6 @@ public class Game {
         	
         }
 	}
-	
 	
 
     public String getWorldPath() {

@@ -2,6 +2,7 @@ package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.WorldEntity;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Princess extends Decor{
@@ -16,4 +17,7 @@ public class Princess extends Decor{
 	public boolean fragile() {
     	return false;
     }
+	public WorldEntity toWorldEntity() {
+		return WorldEntity.Princess;
+	}
 }

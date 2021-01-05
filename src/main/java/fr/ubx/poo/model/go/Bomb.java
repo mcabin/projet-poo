@@ -35,7 +35,7 @@ public class Bomb extends GameObject{
 		}
 		Position pPos=game.getPlayer().getPosition();
 		if(pPos.equals(pos)) {
-			game.getPlayer().setLives(game.getPlayer().getLives()-1);
+			game.getPlayer().takeDamage();
 		}
 		if(game.getWorld().get(pos)!=null) {
 			if(game.getWorld().get(pos).fragile()) {

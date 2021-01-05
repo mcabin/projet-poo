@@ -2,6 +2,7 @@ package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.WorldEntity;
 
 public class Box extends Decor{
 	public String toString() {
@@ -16,5 +17,8 @@ public class Box extends Decor{
     	Box newBox=new Box();
     	game.getWorld().set(nextPos2, newBox);
     	game.update=true;
+	}
+	public WorldEntity toWorldEntity() {
+		return WorldEntity.Box;
 	}
 }

@@ -2,6 +2,7 @@ package fr.ubx.poo.model.decor;
 
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.WorldEntity;
 import fr.ubx.poo.model.go.character.Player;
 
 public class BombRangeDec extends Decor{
@@ -16,5 +17,8 @@ public class BombRangeDec extends Decor{
 		if(p.getRangeValue()<1) {
 			p.setRangeValue(1);
 		}
+	}
+	public WorldEntity toWorldEntity() {
+		return WorldEntity.BombRangeDec;
 	}
 }

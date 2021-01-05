@@ -1,8 +1,10 @@
 package fr.ubx.poo.model.decor;
 
+import fr.ubx.poo.game.WorldEntity;
+
 public class DoorClosed extends Decor{
     public String toString() {
-        return "DoorNextClosed";
+        return "DoorClosed";
     }
     public boolean fragile() {
     	return false;
@@ -10,4 +12,10 @@ public class DoorClosed extends Decor{
     public boolean openable() {
     	return true;
     }
+    public boolean isDoor() {
+    	return true;
+    }
+    public WorldEntity toWorldEntity() {
+		return WorldEntity.DoorNextClosed;
+	}
 }

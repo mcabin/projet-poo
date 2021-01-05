@@ -86,7 +86,6 @@ public final class GameEngine {
         }
         
     }
-
     protected final void buildAndSetGameLoop() {
         gameLoop = new AnimationTimer() {
         	private long timenowS;
@@ -121,7 +120,7 @@ public final class GameEngine {
                         	i.requestMove(Direction.E);
                     	}
                     	if (nb==3) {
-                        i.requestMove(Direction.N);
+                    		i.requestMove(Direction.N);
                     	}
                 	}
                 	}
@@ -137,6 +136,9 @@ public final class GameEngine {
                 			}
                 			player.getBombList().get(i).setCompt(player.getBombList().get(i).getCompt()-1);
                 		}
+                	}
+                	if(player.getHitCooldown()>0) {
+                		player.setHitCooldown(player.getHitCooldown()-1);
                 	}
                 }
                 

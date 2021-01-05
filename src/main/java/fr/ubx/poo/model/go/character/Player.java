@@ -28,6 +28,7 @@ public class Player extends GameObject implements Movable {
     private boolean winner;
     private int rangeValue=1;
     private int bombValue=0;
+    private int hitCooldown=0;
     private ArrayList<Bomb> bombList=new ArrayList<Bomb>();
     
     public ArrayList<Bomb> getBombList() {
@@ -86,8 +87,26 @@ public class Player extends GameObject implements Movable {
             }
         }
     }
+    public void takeDamage() {
+    	if(this.getHitCooldown()==0) {
+    		this.lives--;
+    		setHitCooldown(2
+    				);
+    	}
+    }
+    public int getHitCooldown() {
+		return hitCooldown;
+	}
 
-    public void requestMove(Direction direction) {
+
+
+	public void setHitCooldown(int hitCooldown) {
+		this.hitCooldown = hitCooldown;
+	}
+
+
+
+	public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
         }
@@ -138,7 +157,7 @@ public class Player extends GameObject implements Movable {
 	public void hitMonster(Position p) {
     	for(Monster i : game.getMonsterList()) {
     		if(i.getPosition().equals(p)) {
-    			this.lives--;
+    			takeDamage();
     		}
     	}
     }

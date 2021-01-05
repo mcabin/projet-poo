@@ -14,7 +14,7 @@ import java.util.function.BiConsumer;
 public class World {
     private final Map<Position, Decor> grid;
     private final WorldEntity[][] raw;
-    public final Dimension dimension;
+	public final Dimension dimension;
 
     public World(WorldEntity[][] raw) {
         this.raw = raw;
@@ -22,7 +22,11 @@ public class World {
         grid = WorldBuilder.build(raw, dimension);
     }
 
-    public Position findPlayer() throws PositionNotFoundException {
+    public Dimension getDimension() {
+		return dimension;
+	}
+
+	public Position findPlayer() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == WorldEntity.Player) {
@@ -41,7 +45,7 @@ public class World {
                     }
             	}
             	else {
-            		if (raw[y][x] == WorldEntity.DoorNextClosed) {
+            		if (raw[y][x] == WorldEntity.DoorNextOpened) {
                     	return new Position(x,y);
                     }
             	}

@@ -39,7 +39,7 @@ public class Monster extends GameObject{
         if(game.getWorld().get(nextPos)==null) {
         	return true;
         }
-        if(game.getWorld().get(nextPos).movable() || !game.getWorld().get(nextPos).canMove()) {
+        if(game.getWorld().get(nextPos).movable() || !game.getWorld().get(nextPos).canMove() || game.getWorld().get(nextPos).isDoor()) {
         	return false;
         }
         return true;
@@ -50,7 +50,7 @@ public class Monster extends GameObject{
         setPosition(nextPos);
         
         if(nextPos.equals(game.getPlayer().getPosition())) {
-        	game.getPlayer().setLives(game.getPlayer().getLives()-1);
+        	game.getPlayer().takeDamage();
         }
 	}
 	
