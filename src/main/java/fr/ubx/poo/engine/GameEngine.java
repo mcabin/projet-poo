@@ -24,6 +24,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -86,6 +87,39 @@ public final class GameEngine {
         }
         
     }
+    private void randomMove(Monster monster) {
+    	int nb=(int) (Math.random()*(4));
+		if (nb==0) {
+			monster.requestMove(Direction.S);
+    	}
+    	if (nb==1) {
+        	monster.requestMove(Direction.W);
+    	}
+    	if (nb==2) {
+        	monster.requestMove(Direction.E);
+    	}
+    	if (nb==3) {
+    		monster.requestMove(Direction.N);
+    	}
+    }
+    private void followPlayer(Monster m) {
+    	if(game.getPlayer().getPosition().x>m.getPosition().x && m.canMove(Direction.E)) {
+			m.requestMove(Direction.E);
+		}
+    	else if(game.getPlayer().getPosition().x<m.getPosition().x && m.canMove(Direction.W)) {
+			m.requestMove(Direction.W);
+		}
+    	else if(game.getPlayer().getPosition().y>m.getPosition().y && m.canMove(Direction.S)) {
+			m.requestMove(Direction.S);
+		}
+    	else if(game.getPlayer().getPosition().y<m.getPosition().y && m.canMove(Direction.N)) {
+			m.requestMove(Direction.N);
+		}
+    	else {
+    		randomMove(m);
+    	}
+    	
+    }
     protected final void buildAndSetGameLoop() {
         gameLoop = new AnimationTimer() {
         	private long timenowS;
@@ -107,36 +141,35 @@ public final class GameEngine {
                 	}
                 	
                 	if(timenowS%monsterSpeed==0) {
-                	for(Monster i : monstersList ) {
-                		
-                		int nb=(int) (Math.random()*(4));
-                		if (nb==0) {
-                			i.requestMove(Direction.S);
-                    	}
-                    	if (nb==1) {
-                        	i.requestMove(Direction.W);
-                    	}
-                    	if (nb==2) {
-                        	i.requestMove(Direction.E);
-                    	}
-                    	if (nb==3) {
-                    		i.requestMove(Direction.N);
-                    	}
+                		Iterator<Monster> itMonster=monstersList.iterator();
+                		while(itMonster.hasNext()) {
+                			Monster monst=itMonster.next();
+                			if(game.getCurrLevel()>=3) { //monster try to follow player
+                				followPlayer(monst);
+                			}
+                			else {
+                				randomMove(monst);
+                			}
+                			
+                		}
                 	}
-                	}
-                	for(int i=0;player.getBombList().size()>i;i++) {
-                		if(player.getBombList().get(i).getCompt()==0) {
-                			player.getBombList().remove(i);
-                			spriteBomb.remove(i);
+                	Iterator<Bomb> itBomb=player.getBombList().iterator();
+                	while(itBomb.hasNext()) {
+                		Bomb bomb=itBomb.next();
+                		if(bomb.getCompt()==0) {
+                			bomb.explose();
+                			itBomb.remove();
                 			game.update=true;
                 		}
                 		else {
-                			if(player.getBombList().get(i).getCompt()==1) {
-                				player.getBombList().get(i).explose();
+                			if(bomb.getCompt()==1) {
+                				bomb.createExplosion();
+                				
                 			}
-                			player.getBombList().get(i).setCompt(player.getBombList().get(i).getCompt()-1);
+                			bomb.setCompt(bomb.getCompt()-1);
                 		}
                 	}
+                	
                 	if(player.getHitCooldown()>0) {
                 		player.setHitCooldown(player.getHitCooldown()-1);
                 	}

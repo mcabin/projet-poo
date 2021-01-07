@@ -4,6 +4,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Box;
+import fr.ubx.poo.model.decor.Explosion;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Bomb extends GameObject{
@@ -60,6 +61,34 @@ public class Bomb extends GameObject{
 			exploseAt(nextW);
 			exploseAt(nextE);
 		}
+	}
+	
+	public void localExplosion(Position pos) {
+		if(game.getWorld().get(pos)==null) {
+			Explosion explosion=new Explosion();
+			game.getWorld().set(pos, explosion);
+		}
+		else if(game.getWorld().get(pos).fragile()) {
+			Explosion explosion=new Explosion();
+			game.getWorld().set(pos, explosion);
+		}
+	}
+	public void createExplosion() {
+		Position nextN=getPosition();
+		Position nextS=getPosition();
+		Position nextW=getPosition();
+		Position nextE=getPosition();
+		for(int i=0;i<range;i++) {
+			nextN=Direction.N.nextPosition(nextN);
+			nextS=Direction.S.nextPosition(nextS);
+			nextW=Direction.W.nextPosition(nextW);
+			nextE=Direction.E.nextPosition(nextE);
+			localExplosion(nextN);
+			localExplosion(nextS);
+			localExplosion(nextW);
+			localExplosion(nextE);
+		}
+		game.update=true;
 	}
 	
 
