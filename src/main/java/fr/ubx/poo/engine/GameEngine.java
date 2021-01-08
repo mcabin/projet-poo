@@ -87,6 +87,8 @@ public final class GameEngine {
         }
         
     }
+    
+    //try to move the monster in parameter at a random direction
     private void randomMove(Monster monster) {
     	int nb=(int) (Math.random()*(4));
 		if (nb==0) {
@@ -102,7 +104,10 @@ public final class GameEngine {
     		monster.requestMove(Direction.N);
     	}
     }
+    
+    //this try to give to a monster the good direction to take to follow the player
     private void followPlayer(Monster m) {
+    	//compare the position of the monster and the player and try to approach the player
     	if(game.getPlayer().getPosition().x>m.getPosition().x && m.canMove(Direction.E)) {
 			m.requestMove(Direction.E);
 		}
@@ -115,6 +120,7 @@ public final class GameEngine {
     	else if(game.getPlayer().getPosition().y<m.getPosition().y && m.canMove(Direction.N)) {
 			m.requestMove(Direction.N);
 		}
+    	//if the monster no direction is good the monster try a random Direction
     	else {
     		randomMove(m);
     	}
@@ -129,26 +135,26 @@ public final class GameEngine {
 
                 // Do actions
                 update(now);
-                long timeinS=now/1000000000;
-                if(timeinS!=this.timenowS) {
+                long timeinS=now/1000000000; 	//transform the time from nanosecond to second
+                if(timeinS!=this.timenowS) { 	//check if one second have passed
                 	this.timenowS=timeinS;
-                	int monsterSpeed;
-                	if(game.getCurrLevel()>1) {
-                		monsterSpeed=1;
+                	int monsterSpeed;			//use monster speed to change the reaction speed of monster 
+                	if(game.getCurrLevel()>1) {	
+                		monsterSpeed=1; 		//if level is at 1 monster move every 2 seconds
             		}
                 	else {
-                		monsterSpeed=2;
+                		monsterSpeed=2;			//if level is at 2 or more monster move every 1 second
                 	}
                 	
                 	if(timenowS%monsterSpeed==0) {
                 		Iterator<Monster> itMonster=monstersList.iterator();
-                		while(itMonster.hasNext()) {
+                		while(itMonster.hasNext()) { 
                 			Monster monst=itMonster.next();
-                			if(game.getCurrLevel()>=3) { //monster try to follow player
+                			if(game.getCurrLevel()>=3) { //monster try to follow player if current level is 3 or more monster try to follow the player
                 				followPlayer(monst);
                 			}
                 			else {
-                				randomMove(monst);
+                				randomMove(monst); //monster try just random move
                 			}
                 			
                 		}
@@ -156,21 +162,21 @@ public final class GameEngine {
                 	Iterator<Bomb> itBomb=player.getBombList().iterator();
                 	while(itBomb.hasNext()) {
                 		Bomb bomb=itBomb.next();
-                		if(bomb.getCompt()==0) {
+                		if(bomb.getCompt()==0) {		//check if the bomb compt is a zero to explose and get remove the bomb
                 			bomb.explose();
                 			itBomb.remove();
                 			game.update=true;
                 		}
                 		else {
-                			if(bomb.getCompt()==1) {
-                				bomb.createExplosion();
+                			if(bomb.getCompt()==1) {	//the explosion effect appear just before the real explosion
+                				bomb.createExplosion(); 
                 				
                 			}
-                			bomb.setCompt(bomb.getCompt()-1);
+                			bomb.setCompt(bomb.getCompt()-1);  //if the bomb compt is >0 then he diminish of one
                 		}
                 	}
                 	
-                	if(player.getHitCooldown()>0) {
+                	if(player.getHitCooldown()>0) {				//count down the player hitcooldown if he is superior at 0
                 		player.setHitCooldown(player.getHitCooldown()-1);
                 	}
                 }

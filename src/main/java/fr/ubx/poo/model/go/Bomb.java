@@ -29,7 +29,8 @@ public class Bomb extends GameObject{
 	public void setRange(int range) {
 		this.range = range;
 	}
-	public void exploseAt(Position pos) {
+	public void exploseAt(Position pos) {			 //apply the effect of a explosion for a specific position
+		//check if a monster is at the position and destroy if its the case
 		Iterator<Monster> mIt=game.getMonsterList().iterator();
 		while(mIt.hasNext()) {
 			Monster m=mIt.next();
@@ -38,10 +39,12 @@ public class Bomb extends GameObject{
 				mIt.remove();
 			}
 		}
+		//check if player is in position and give him one damage if its the case
 		Position pPos=game.getPlayer().getPosition();
 		if(pPos.equals(pos)) {
 			game.getPlayer().takeDamage();
 		}
+		//check if a decor is present and if the decor can be destroy
 		if(game.getWorld().get(pos)!=null) {
 			if(game.getWorld().get(pos).fragile()) {
 				game.getWorld().clear(pos);
@@ -49,36 +52,41 @@ public class Bomb extends GameObject{
 			}
 		}
 	}
-	public void explose() {
+	
+	//apply the effect of a explosion for the position reach by the range of the bomb 
+	public void explose() { 
 		exploseAt(getPosition());
 		Position nextN=getPosition();
 		Position nextS=getPosition();
 		Position nextW=getPosition();
 		Position nextE=getPosition();
-		for(int i=0;i<range;i++) {
+		for(int i=0;i<range;i++) { 					//use range to obtain every position reach by the bomb for each direction
 			nextN=Direction.N.nextPosition(nextN);
 			nextS=Direction.S.nextPosition(nextS);
 			nextW=Direction.W.nextPosition(nextW);
 			nextE=Direction.E.nextPosition(nextE);
-			exploseAt(nextN);
+			exploseAt(nextN);  						//for each position use exploseAt
 			exploseAt(nextS);
 			exploseAt(nextW);
 			exploseAt(nextE);
 		}
 	}
 	
-	public void localExplosion(Position pos) {
-		if(pos.inside(game.getWorld().dimension)) {
-			if(game.getWorld().get(pos)==null) {
+	public void localExplosion(Position pos) { //create a explosion decor for a specific position
+		
+		if(pos.inside(game.getWorld().dimension)) { 
+			if(game.getWorld().get(pos)==null) {		//check if the position as already a decor if not create a explosion
 				Explosion explosion=new Explosion();
 				game.getWorld().set(pos, explosion);
 			}
-			else if(game.getWorld().get(pos).fragile()) {
+			else if(game.getWorld().get(pos).fragile()) { //check if the position as a destructible decor if yes replace the decor by the explosion
 				Explosion explosion=new Explosion();
 				game.getWorld().set(pos, explosion);
 			}
 		}
 	}
+	
+	//create a explosion decor for the position reach by the range of the bomb 
 	public void createExplosion() {
 		Position nextN=getPosition();
 		Position nextS=getPosition();
