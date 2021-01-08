@@ -1,5 +1,7 @@
 package fr.ubx.poo.model.go;
 
+import java.util.Iterator;
+
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
@@ -28,10 +30,12 @@ public class Bomb extends GameObject{
 		this.range = range;
 	}
 	public void exploseAt(Position pos) {
-		for(int i=0;game.getMonsterList().size()>i;i++) {
-			Position mPos=game.getMonsterList().get(i).getPosition();
+		Iterator<Monster> mIt=game.getMonsterList().iterator();
+		while(mIt.hasNext()) {
+			Monster m=mIt.next();
+			Position mPos=m.getPosition();
 			if(mPos.equals(pos)) {
-				game.getMonsterList().remove(i);
+				mIt.remove();
 			}
 		}
 		Position pPos=game.getPlayer().getPosition();
@@ -64,13 +68,15 @@ public class Bomb extends GameObject{
 	}
 	
 	public void localExplosion(Position pos) {
-		if(game.getWorld().get(pos)==null) {
-			Explosion explosion=new Explosion();
-			game.getWorld().set(pos, explosion);
-		}
-		else if(game.getWorld().get(pos).fragile()) {
-			Explosion explosion=new Explosion();
-			game.getWorld().set(pos, explosion);
+		if(pos.inside(game.getWorld().dimension)) {
+			if(game.getWorld().get(pos)==null) {
+				Explosion explosion=new Explosion();
+				game.getWorld().set(pos, explosion);
+			}
+			else if(game.getWorld().get(pos).fragile()) {
+				Explosion explosion=new Explosion();
+				game.getWorld().set(pos, explosion);
+			}
 		}
 	}
 	public void createExplosion() {
