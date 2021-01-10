@@ -36,15 +36,15 @@ public class World {
         }
         throw new PositionNotFoundException("Player");
     }
-    public Position findDoor(boolean next) throws PositionNotFoundException{
+    public Position findDoor(boolean next) throws PositionNotFoundException{ //return position of the door where the player appear when another level is load
     	for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-            	if(next) {
+            	if(next) {		//if next is true the door where the player while spawn is of type prev
             		if (raw[y][x] == WorldEntity.DoorPrevOpened) {
                     	return new Position(x,y);
                     }
             	}
-            	else {
+            	else {		//if next is false the door where the player while spawn is of type next
             		if (raw[y][x] == WorldEntity.DoorNextOpened) {
                     	return new Position(x,y);
                     }
@@ -54,7 +54,7 @@ public class World {
          }
     	throw new PositionNotFoundException("Door");
     }
-    public ArrayList<Position> findMonsters(){
+    public ArrayList<Position> findMonsters(){  //find all monster of a level and return their position in a list
     	ArrayList<Position> posList=new ArrayList<Position>();
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {

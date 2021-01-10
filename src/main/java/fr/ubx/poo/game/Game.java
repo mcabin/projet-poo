@@ -57,9 +57,9 @@ public class Game {
         initialiseMonster();
         
     }
-	public void saveLevel(World w) {
-		WorldEntity[][] lvlSave=new WorldEntity[w.getDimension().height][w.getDimension().width];
-		for (int x = 0; x < w.getDimension().width; x++) {
+	public void saveLevel(World w) { 		//save the current world in levelSaves
+		WorldEntity[][] lvlSave=new WorldEntity[w.getDimension().height][w.getDimension().width]; //create the save of the level
+		for (int x = 0; x < w.getDimension().width; x++) {		//save the decor in lvlSave
             for (int y = 0; y < w.getDimension().height; y++) {
             	Position pos=new Position(x,y);
             	if(w.get(pos)==null) {
@@ -70,17 +70,17 @@ public class Game {
             	}
             }
         }
-		for(Monster i :monsterList) {
-			if(lvlSave[i.getPosition().y][i.getPosition().x]==WorldEntity.Empty) {
+		for(Monster i :monsterList) { 				//save the monster in levelSave
+			if(lvlSave[i.getPosition().y][i.getPosition().x]==WorldEntity.Empty) {	//if the monster is at the same position of another object is not save
 				lvlSave[i.getPosition().y][i.getPosition().x]=WorldEntity.Monster;
 			}
 			
 		}
-		if(levelSaves.size()>=currLevel) {
+		if(levelSaves.size()>=currLevel) {			//check if the level is already saved if yes save it a replace is previous save by levelSave
 			levelSaves.set(currLevel-1, lvlSave);
 		}
-		else {
-			levelSaves.add(lvlSave);
+		else {		
+			levelSaves.add(lvlSave); 			//add levelSave at the list levelSaves
 		}
 		
 	}

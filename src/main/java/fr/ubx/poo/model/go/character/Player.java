@@ -72,7 +72,7 @@ public class Player extends GameObject implements Movable {
         	game.update=true;
     	}
     }
-    public void useKey () {
+    public void useKey () {  //open the door where at the player position
         if (this.keys > 0) {
             Position pos = getPosition();
             if (game.getWorld().get(pos)!=null){
@@ -87,7 +87,7 @@ public class Player extends GameObject implements Movable {
             }
         }
     }
-    public void takeDamage() {
+    public void takeDamage() { 			//lower of one the live of the player if the Hitcooldown is at 
     	if(this.getHitCooldown()==0) {
     		this.lives--;
     		setHitCooldown(2
@@ -114,19 +114,19 @@ public class Player extends GameObject implements Movable {
     }
     
     @Override
-    public boolean canMove(Direction direction) {
+    public boolean canMove(Direction direction) {	//check if the move of the player is valid
         Position nextPos = direction.nextPosition(getPosition());
         if(!nextPos.inside(game.getWorld().dimension)) {
         	return false;
         }
-        if(game.getWorld().get(nextPos)==null) {
+        if(game.getWorld().get(nextPos)==null) {	
         	return true;
         }
-        if(!game.getWorld().get(nextPos).canMove()) {
+        if(!game.getWorld().get(nextPos).canMove()) {	//check if we can move on this decor
         	return false;
         }
         
-        if(game.getWorld().get(nextPos).movable()) {
+        if(game.getWorld().get(nextPos).movable()) {			//check if the box can move in a empty position if not return false
         	Position nextPos2 = direction.nextPosition(nextPos);
             return nextPos2.inside(game.getWorld().dimension) && game.getWorld().get(nextPos2) == null;
         }
@@ -154,7 +154,7 @@ public class Player extends GameObject implements Movable {
 
 
 
-	public void hitMonster(Position p) {
+	public void hitMonster(Position p) { 	//check if the position where the player is is share with monster and give him a damage in this case
     	for(Monster i : game.getMonsterList()) {
     		if(i.getPosition().equals(p)) {
     			takeDamage();

@@ -23,14 +23,14 @@ public class WorldReader extends World{
 		}
         
         String string;
-        int line=0;
-        int lineLenght=0;
+        int line=0;			//use to get the height of the table
+        int lineLenght=0;	//use to get the width of the table
         String first = null;
 		try {
 			first = br2.readLine();
-			if(first!=null) {
+			if(first!=null) {	
 	        	line++;
-	        	lineLenght=first.length();
+	        	lineLenght=first.length(); 
 	        }
 			while (br2.readLine() != null) {
 	        	line++;
@@ -41,15 +41,15 @@ public class WorldReader extends World{
 		}
         
         
-        WorldEntity[][] map = new WorldEntity[line][lineLenght]; // TROP CHEUM
+        WorldEntity[][] map = new WorldEntity[line][lineLenght]; //create a table of map with line as height and lineLenght as width
         int y = 0;
         try {
 			while ((string = br.readLine()) != null) {
 			    int x = 0;
 			    char[] characters = string.toCharArray();
 			    for (char ch : characters) {
-			        if (WorldEntity.fromCode(ch).isPresent())
-			            map[y][x] = WorldEntity.fromCode(ch).get();
+			        if (WorldEntity.fromCode(ch).isPresent()) 
+			            map[y][x] = WorldEntity.fromCode(ch).get();//transform the char of the line in WorldEntity
 			            x++;
 			        }
 			    y++;
