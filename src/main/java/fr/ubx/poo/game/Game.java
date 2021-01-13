@@ -44,7 +44,7 @@ public class Game {
 
 	public Game(String worldPath) {
         this.worldPath = worldPath;
-        world = new WorldReader(worldPath+"\\level"+this.currLevel+".txt");
+        world = new WorldReader(worldPath+"/level"+this.currLevel+".txt");
         loadConfig(worldPath);
         Position positionPlayer = null;
         try {
